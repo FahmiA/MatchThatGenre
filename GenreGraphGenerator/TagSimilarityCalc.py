@@ -38,10 +38,11 @@ class TagSimilarityCalc:
                 tf = tagCount / totalTagCount
                 # loge(number of tags / number of tags with artist)
                 idf = math.log(self._artistTags.getTagCount() / self._artistTags.getArtistTagCount(artist))
-                print('For Artist %s with tag %s' %(artist.getName(), tag))
-                print(' tf = %d / %d = %.3f' %(tagCount, totalTagCount, tf))
-                print(' idf = log(%d / %d) = %.3f' %(self._artistTags.getTagCount(), self._artistTags.getArtistTagCount(artist), idf))
-                print(' tf*idf = %.3f' %(tf * idf))
+
+                #print('For Artist %s with tag %s' %(artist.getName(), tag))
+                #print(' tf = %d / %d = %.3f' %(tagCount, totalTagCount, tf))
+                #print(' idf = log(%d / %d) = %.3f' %(self._artistTags.getTagCount(), self._artistTags.getArtistTagCount(artist), idf))
+                #print(' tf*idf = %.3f' %(tf * idf))
 
                 tfidf = tf * idf
 
@@ -50,4 +51,4 @@ class TagSimilarityCalc:
         return tagArtistWeights
 
     def getStatsString(self):
-        return 'TagSimilarityCalc (#artists: %d,  #tags: %d)' % (len(self._artists), len(self._tagToArtists))
+        return 'TagSimilarityCalc (#artists: %d,  #tags: %d)' % (len(self._artists), self._artistTags.getTagCount())

@@ -1,6 +1,8 @@
 import argparse
 
 from TagSimilarityCalc import TagSimilarityCalc
+from GenreRelationshipMaker import GenreRelationshipMaker
+from GenreGraphFormatter import GenreGraphFormatter
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Produce genre-similarity graph by analysing artists tags and identifying related tags.')
@@ -46,10 +48,12 @@ if __name__ == '__main__':
 
     print(tagSimilarityCalc.getStatsString())
     tagToArtistWeights = tagSimilarityCalc.getTagToArtistsWeights()
-    print(tagToArtistWeights)
 
-    #tagMapGenerator = TagMapGenerator()
-    #tagMapGenerator.process(tagToArtistWeights)
+    genreRelationshipMaker = GenreRelationshipMaker(tagToArtistWeights)
+    genreRelationshipMaker.process()
+    
+    genreGraphFormatter = GenreGraphFormatter(genreRelationshipMaker.getTags(), genreRelationshipMaker.getTagLinks())
+    output = genreGraphFormatter.formatFlatJSON()
 
-    #print(tagMapGenerator.asCSV())
+    print(output)
 

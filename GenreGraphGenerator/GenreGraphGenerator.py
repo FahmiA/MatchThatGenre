@@ -18,6 +18,12 @@ class Artist:
     def __hash__(self):
         return hash(self._id)
 
+    def __eq__(self, obj):
+        return isinstance(obj, Artist) and obj.getId() == self._id and obj.getName() == self._name
+
+    def __ne__(self, obj):
+        return not self == obj
+
 class TagSimilarityCalc:
 
     def __init__(self):
@@ -65,6 +71,10 @@ class TagSimilarityCalc:
                 tf = tagCount / totalTagCount
                 # loge(number of tags / number of tags with artist)
                 idf = math.log(len(self._tagToArtists) / len(self._artistToTags[artist]))
+                print('For Artist %s with tag %s' %(artist.getName(), tag))
+                print(' tf = %d / %d = %.3f' %(tagCount, totalTagCount, tf))
+                print(' idf = log(%d / %d) = %.3f' %(len(self._tagToArtists), len(self._artistToTags[artist]), idf))
+                print(' tf*idf = %.3f' %(tf * idf))
 
                 tfidf = tf * idf
 

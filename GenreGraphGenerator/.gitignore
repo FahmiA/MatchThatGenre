@@ -1,0 +1,6 @@
+# Extracted artist-tag data files
+*.dat
+Lastfm-ArtistTags2007/
+
+# Temperary files
+out

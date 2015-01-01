@@ -1,6 +1,9 @@
 import math
 
 class TagLink:
+    """
+    A link between two tags. Has a distance.
+    """
 
     def __init__(self, fromTag, toTag, fromTagIndex, toTagIndex, distance):
         self._fromTag = fromTag
@@ -24,7 +27,11 @@ class TagLink:
     def getDistance(self):
         return self._distance
 
-class GenreRelationshipMaker:
+class TagRelationshipCalc:
+    """
+    Calculates the distance (strength of relationship) between all provided
+    tags.
+    """
 
     def __init__(self, tagArtistWeights):
         self._tagArtistWeights = tagArtistWeights

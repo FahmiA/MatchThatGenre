@@ -1,6 +1,10 @@
 import json
 
-class GenreGraphFormatter:
+class TagGraphFormatter:
+    """
+    Formats a tag graph into a textual representation.
+    The textual representation is fit to be consumed by other software.
+    """
 
     def __init__(self, tags, tagLinks):
         self._tags = tags

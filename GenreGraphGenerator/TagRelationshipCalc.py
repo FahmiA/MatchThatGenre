@@ -61,25 +61,29 @@ class TagRelationshipCalc:
         fromWeights = []
         toWeights = []
 
-        for fromArtist, fromArtistWeight in fromArtistWeights.items():
-            if fromArtist in toArtistWeights:
-                fromWeights.append(fromArtistWeight)
-                toWeights.append(toArtistWeights[fromArtist])
+        allArtists = set(fromArtistWeights.keys())
+        toArtists = set(toArtistWeights.keys())
+        allArtists.update(toArtists)
+        # TODO: allArtists must contain EVERY artist in the collection. Order matters!
+
+        for artist in allArtists:
+            fromWeights.append(fromArtistWeights.get(artist, 0))
+            toWeights.append(toArtistWeights.get(artist, 0))
 
         if len(fromWeights) > 0:
             return self._cosineDistance(fromWeights, toWeights)
         else:
-            return -1
+            return -1 # The furthest cosine distance
 
     def _cosineDistance(self, a, b):
         # Souce: http://stackoverflow.com/questions/1823293/optimized-method-for-calculating-cosine-distance-in-python
         assert len(a) == len(b)
-        ab_sum, a_sum, b_sum = 0, 0, 0
+        ab_sum, a_sum, b_sum = 0.0, 0.0, 0.0
         for ai, bi in zip(a, b):
             ab_sum += ai * bi
             a_sum += ai * ai
             b_sum += bi * bi
-        return 1 - ab_sum / math.sqrt(a_sum * b_sum)
+        return 1.0 - ab_sum / math.sqrt(a_sum * b_sum)
 
     def _acceptDistance(self, distance):
         return distance < 0.3 and distance > -0.3

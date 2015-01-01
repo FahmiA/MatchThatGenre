@@ -61,7 +61,7 @@ if __name__ == '__main__':
     tagRelationshipCalc = TagRelationshipCalc(tagToArtistWeights)
     tagRelationshipCalc.process()
     
-    tagGraphFormatter = TagGraphFormatter(tagRelationshipCalc.getTags(), tagRelationshipCalc.getTagLinks())
+    tagGraphFormatter = TagGraphFormatter(artistWeightCalc.getArtistTags(), tagRelationshipCalc.getTags(), tagRelationshipCalc.getTagLinks())
     output = tagGraphFormatter.formatFlatJSON()
 
     print(output)

@@ -42,6 +42,9 @@ class ArtistWeightCalc:
         for tag in self._artistTags.getTags():
             currentTagCount = self._artistTags.getTotalTagCount(tag)
 
+            if not self._acceptTag(tag):
+                continue
+
             for artist in self._artistTags.getArtistsWithTag(tag):
                 artistTagCount = self._artistTags.getTagCountOfArtist(tag, artist)
                 # Number of times the artist appears for the tag / number of artist songs for tag
@@ -59,6 +62,13 @@ class ArtistWeightCalc:
                 tagArtistWeights.add(tag, artist, tfidf)
 
         return tagArtistWeights
+
+    def _acceptTag(self, tag):
+        """ Flags to disregard tags which are only used once. """
+        return len(self._artistTags.getArtistsWithTag(tag)) > 1
+
+    def getArtistTags(self):
+        return self._artistTags
 
     def getStatsString(self):
         return 'Stats. #artists: %d,  #tags: %d' % (len(self._artists), self._artistTags.getTagCount())

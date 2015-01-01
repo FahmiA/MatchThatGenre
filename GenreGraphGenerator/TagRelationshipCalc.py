@@ -64,7 +64,6 @@ class TagRelationshipCalc:
         allArtists = set(fromArtistWeights.keys())
         toArtists = set(toArtistWeights.keys())
         allArtists.update(toArtists)
-        # TODO: allArtists must contain EVERY artist in the collection. Order matters!
 
         for artist in allArtists:
             fromWeights.append(fromArtistWeights.get(artist, 0))

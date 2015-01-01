@@ -37,13 +37,16 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Produce genre-similarity graph by analysing artists tags and identifying related tags.')
     parser.add_argument('--version', action='version', version='%(prog)s 0.1')
     parser.add_argument('path', help='Relative path to artist-tags file with the following format: musicbrainz-artist-id<sep>artist-name<sep>tag-name<sep>raw-tag-count')
+    parser.add_argument('outputPath', help='Relative path to output graph file')
 
     args = parser.parse_args()
 
     path = args.path
+    outputPath = args.outputPath
 
+    print('Parsing input file...')
     artistWeightCalc = ArtistWeightCalc()
-    with open(path, mode='r') as csvFile:
+    with open(path, mode='r') as csvFile: # O(n)
 
         for line in csvFile:
             row = line.split('<sep>')
@@ -54,15 +57,22 @@ if __name__ == '__main__':
 
             artistWeightCalc.add(artistId, artist, tag, tagCount)
 
-    print(artistWeightCalc.getStatsString())
+    print('\t' + artistWeightCalc.getStatsString()) # O(1)
 
-    tagToArtistWeights = artistWeightCalc.getTagToArtistsWeights()
+    print('Calculating artist tag weights...')
+    tagToArtistWeights = artistWeightCalc.getTagToArtistsWeights() # > O(n)
 
+    print('Calculating tag similarity...')
     tagRelationshipCalc = TagRelationshipCalc(tagToArtistWeights)
-    tagRelationshipCalc.process()
+    tagRelationshipCalc.process() # > O(n * n/2)
     
+    print('Formating output graph...')
     tagGraphFormatter = TagGraphFormatter(artistWeightCalc.getArtistTags(), tagRelationshipCalc.getTags(), tagRelationshipCalc.getTagLinks())
-    output = tagGraphFormatter.formatFlatJSON()
+    output = tagGraphFormatter.formatFlatJSON() # O(n)
 
-    print(output)
+    print('Writing output file...')
+    with open(outputPath, mode='w') as outputFile:
+        outputFile.write(output)
+
+    print('Done.')
 

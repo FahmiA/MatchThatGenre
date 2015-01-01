@@ -11,14 +11,14 @@ class ArtistTags:
 
     def add(self, artist, tag, tagCount):
         """ Associates a new artist with a tag """
-        # Update the tag-artists record
+        # Update the tag-artists recor. O(1) on averaged
         if tag in self._tagToArtists:
             artistDict = self._tagToArtists[tag]
             artistDict[artist] = tagCount
         else:
             self._tagToArtists[tag] = {artist: tagCount}
 
-        # Update the artist-tags
+        # Update the artist-tag. O(1) on averages
         if artist in self._artistToTags:
             self._artistToTags[artist].add(tag)
         else:

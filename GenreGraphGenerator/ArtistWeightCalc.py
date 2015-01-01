@@ -21,7 +21,7 @@ class ArtistWeightCalc:
         self._artistTags = ArtistTags()
 
     def add(self, artistId, artistName, tag, tagCount):
-        # Get the artist
+        # Get the artist. O(1) on average
         artist = None
         if artistId in self._artists:
             artist = self._artists[artistId]
@@ -40,10 +40,10 @@ class ArtistWeightCalc:
         totalTagCount = self._artistTags.getTagCount() 
 
         for tag in self._artistTags.getTags():
-            currentTagCount = self._artistTags.getTotalTagCount(tag)
-
             if not self._acceptTag(tag):
                 continue
+
+            currentTagCount = self._artistTags.getTotalTagCount(tag)
 
             for artist in self._artistTags.getArtistsWithTag(tag):
                 artistTagCount = self._artistTags.getTagCountOfArtist(tag, artist)

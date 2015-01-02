@@ -39,19 +39,23 @@ class ArtistWeightCalc:
 
         return artist
 
+    def pruneTags(self):
+        tagsToRemove = []
+
+        for tag in self._artistTags.getTags():
+            if not self._acceptTag(tag):
+                tagsToRemove.append(tag)
+
+        for tag in tagsToRemove:
+            self._artistTags.remove(tag)
+
     def getTagToArtistsWeights(self):
         # Dictionary from tag to (Artist, weight)
         tagArtistWeights = TagArtistWeights()
 
         totalTagCount = self._artistTags.getTagCount() 
 
-        tagsToRemove = []
-
         for tag in self._artistTags.getTags():
-            if not self._acceptTag(tag):
-                tagsToRemove.append(tag)
-                continue
-
             currentTagCount = self._artistTags.getTotalTagCount(tag)
 
             for artist in self._artistTags.getArtistsWithTag(tag):
@@ -69,9 +73,6 @@ class ArtistWeightCalc:
                 tfidf = tf * idf
 
                 tagArtistWeights.add(tag, artist, tfidf)
-
-        for tag in tagsToRemove:
-            self._artistTags.remove(tag)
 
         return tagArtistWeights
 

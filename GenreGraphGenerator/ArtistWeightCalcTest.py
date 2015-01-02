@@ -57,6 +57,8 @@ class TestTagSimilarityCalc(unittest.TestCase):
         artist2 = self._artistWeightCalc.add(uuid, 'The Boomtown Rats', 'funk', 2)
         self._artistWeightCalc.add(uuid, 'The Boomtown Rats', 'soul', 1)
 
+        self._artistWeightCalc.pruneTags()
+
         tagArtistWeights = self._artistWeightCalc.getTagToArtistsWeights()
 
         self.assertEqual(1, tagArtistWeights.getTagCount(), 'Should have all tags used at least once')

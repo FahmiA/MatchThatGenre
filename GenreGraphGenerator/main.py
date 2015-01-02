@@ -62,11 +62,12 @@ if __name__ == '__main__':
 
             artistWeightCalc.add(artistId, artist, tag, tagCount)
 
-    print('\t' + artistWeightCalc.getStatsString()) # O(1)
+    print('\tOriginal ' + artistWeightCalc.getStatsString()) # O(1)
+    artistWeightCalc.pruneTags()
+    print('\t  Pruned ' + artistWeightCalc.getStatsString()) # O(1)
 
     print('Calculating artist tag weights...')
     tagToArtistWeights = artistWeightCalc.getTagToArtistsWeights() # > O(n)
-    print('\t' + artistWeightCalc.getStatsString()) # O(1)
 
     print('Calculating tag similarity...')
     tagRelationshipCalc = TagRelationshipCalc(artistWeightCalc.getArtistTags(), tagToArtistWeights)

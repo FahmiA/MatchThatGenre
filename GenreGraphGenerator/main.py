@@ -49,7 +49,8 @@ if __name__ == '__main__':
     minTagCount = args.minTagCount
 
     print('Parsing input file...')
-    artistWeightCalc = ArtistWeightCalc(minTagCount)
+    artistWeightCalc = ArtistWeightCalc()
+    artistWeightCalc.setMinTagCount(minTagCount)
     with open(path, mode='r') as csvFile: # O(n)
 
         for line in csvFile:

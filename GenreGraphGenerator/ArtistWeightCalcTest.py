@@ -22,7 +22,7 @@ class TestTagSimilarityCalc(unittest.TestCase):
 
         self.assertEqual(3, tagArtistWeights.getTagCount(), 'Should have all tags')
 
-        self._testArtistWeight(tagArtistWeights, 'Favoritos', artist1, 0.0)
+        self._testArtistWeight(tagArtistWeights, 'favoritos', artist1, 0.0)
         self._testArtistWeight(tagArtistWeights, 'funk', artist1, 0.0)
         self._testArtistWeight(tagArtistWeights, 'soul', artist1, 0.0)
 
@@ -41,12 +41,25 @@ class TestTagSimilarityCalc(unittest.TestCase):
 
         self.assertEqual(4, tagArtistWeights.getTagCount(), 'Should have all tags')
 
-        self._testArtistWeight(tagArtistWeights, 'Favoritos', artist1, 0.288)
+        self._testArtistWeight(tagArtistWeights, 'favoritos', artist1, 0.288)
         self._testArtistWeight(tagArtistWeights, 'funk', artist1, 0.096)
         self._testArtistWeight(tagArtistWeights, 'soul', artist1, 0.144)
 
         self._testArtistWeight(tagArtistWeights, 'funk', artist2, 0.192)
         self._testArtistWeight(tagArtistWeights, 'soul', artist2, 0.144)
+
+    def testWithDifferingTagCase(self):
+        self._artistWeightCalc.setMinTagCount(2)
+
+        uuid = self._makeUUID()
+        artist1 = self._artistWeightCalc.add(uuid, 'Funk Brothers', 'funk', 1)
+        uuid = self._makeUUID()
+        artist2 = self._artistWeightCalc.add(uuid, 'The Boomtown Rats', 'FUNK', 2)
+
+        tagArtistWeights = self._artistWeightCalc.getTagToArtistsWeights()
+
+        self.assertEqual(1, tagArtistWeights.getTagCount(), 'Should ignore case when matching tags.')
+        self.assertTrue(tagArtistWeights.hasTag('funk'), 'Should have tag "funk"')
 
     def testPruneRemovesTags(self):
         self._artistWeightCalc.setMinTagCount(2)

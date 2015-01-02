@@ -27,6 +27,10 @@ class ArtistWeightCalc:
         self._minTagCount = minTagCount
 
     def add(self, artistId, artistName, tag, tagCount):
+        artistId = artistId.lower()
+        artistName = artistName.lower()
+        tag = tag.lower()
+
         # Get the artist. O(1) on average
         artist = None
         if artistId in self._artists:

@@ -1,31 +1,6 @@
 import math
 
-class TagLink:
-    """
-    A link between two tags. Has a distance.
-    """
-
-    def __init__(self, fromTag, toTag, fromTagIndex, toTagIndex, distance):
-        self._fromTag = fromTag
-        self._fromTagIndex = fromTagIndex
-        self._toTag = toTag
-        self._toTagIndex = toTagIndex
-        self._distance = distance
-
-    def getFrom(self):
-        return self._fromTag
-
-    def getFromIndex(self):
-        return self._fromTagIndex
-
-    def getTo(self):
-        return self._toTag
-
-    def getToIndex(self):
-        return self._toTagIndex
-
-    def getDistance(self):
-        return self._distance
+from TagLink import TagLink
 
 class TagRelationshipCalc:
     """
@@ -37,8 +12,14 @@ class TagRelationshipCalc:
         self._artistTags = artistTags
         self._tagArtistWeights = tagArtistWeights
 
-        self._tags = []
+        self._tags = ()
         self._tagLinks = []
+
+        # Further links will be excluded
+        self._minLinkDistance = 0.3
+
+    def setMinLinkDistance(self, minLinkDistance):
+        self._minLinkDistance = minLinkDistance
 
     def process(self):
         tags = self._tagArtistWeights.getTags()
@@ -50,6 +31,9 @@ class TagRelationshipCalc:
         i = 0
         for fromTag in tags:
             fromArtistWeights = self._tagArtistWeights.getArtistsWeights(fromTag)
+            fromTagIndex = tagIndexes[fromTag]
+
+            exhaustedTags.add(fromTag)
 
             artists = self._artistTags.getArtistsWithTag(fromTag)
             relatedTags = set()
@@ -64,11 +48,10 @@ class TagRelationshipCalc:
 
                 i += 1
 
+                #print('%s -> %s -> %0.2f' % (fromTag, toTag, distance))
                 if(self._acceptDistance(distance)):
                     #print(fromTag, fromArtistWeights, toTag, toArtistWeights, distance)
-                    self._tagLinks.append(TagLink(fromTag, toTag, tagIndexes[fromTag], tagIndexes[toTag], distance))
-
-            exhaustedTags.add(fromTag)
+                    self._tagLinks.append(TagLink(fromTag, toTag, fromTagIndex, tagIndexes[toTag], distance))
 
         print('\tIterations:', i)
 
@@ -103,7 +86,7 @@ class TagRelationshipCalc:
         return 1.0 - ab_sum / math.sqrt(a_sum * b_sum)
 
     def _acceptDistance(self, distance):
-        return distance < 0.3 and distance > -0.3
+        return distance < abs(self._minLinkDistance)
 
     def getTags(self):
         return self._tags

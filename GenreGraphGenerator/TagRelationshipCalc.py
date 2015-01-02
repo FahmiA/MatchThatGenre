@@ -33,7 +33,8 @@ class TagRelationshipCalc:
     tags.
     """
 
-    def __init__(self, tagArtistWeights):
+    def __init__(self, artistTags, tagArtistWeights):
+        self._artistTags = artistTags
         self._tagArtistWeights = tagArtistWeights
 
         self._tags = []
@@ -43,19 +44,32 @@ class TagRelationshipCalc:
         tags = self._tagArtistWeights.getTags()
         self._tags = tags
 
-        for i in range(0, len(tags)):
-            fromTag = tags[i]
+        exhaustedTags = set()
+
+        i = 0
+        for fromTag in tags:
             fromArtistWeights = self._tagArtistWeights.getArtistsWeights(fromTag)
 
-            for j in range(i + 1, len(tags)):
-                toTag = tags[j]
+            artists = self._artistTags.getArtistsWithTag(fromTag)
+            relatedTags = set()
+            for artist in artists:
+                relatedTags.update(self._artistTags.getTagsWithArtist(artist))
+            relatedTags.difference_update(exhaustedTags)
+
+            for toTag in relatedTags:
                 toArtistWeights = self._tagArtistWeights.getArtistsWeights(toTag)
 
                 distance = self._calculateDistance(fromArtistWeights, toArtistWeights)
 
+                i += 1
+
                 if(self._acceptDistance(distance)):
                     #print(fromTag, fromArtistWeights, toTag, toArtistWeights, distance)
-                    self._tagLinks.append(TagLink(fromTag, toTag, i, j, distance))
+                    self._tagLinks.append(TagLink(fromTag, toTag, 0, 0, distance))
+
+            exhaustedTags.add(fromTag)
+
+        print('Iterations:', i)
 
     def _calculateDistance(self, fromArtistWeights, toArtistWeights):
         fromWeights = []

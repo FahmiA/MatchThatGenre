@@ -61,9 +61,10 @@ if __name__ == '__main__':
 
     print('Calculating artist tag weights...')
     tagToArtistWeights = artistWeightCalc.getTagToArtistsWeights() # > O(n)
+    print('\t' + artistWeightCalc.getStatsString()) # O(1)
 
     print('Calculating tag similarity...')
-    tagRelationshipCalc = TagRelationshipCalc(tagToArtistWeights)
+    tagRelationshipCalc = TagRelationshipCalc(artistWeightCalc.getArtistTags(), tagToArtistWeights)
     tagRelationshipCalc.process() # > O(n * n/2)
     
     print('Formating output graph...')

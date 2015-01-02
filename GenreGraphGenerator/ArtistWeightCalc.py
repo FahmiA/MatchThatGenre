@@ -39,8 +39,11 @@ class ArtistWeightCalc:
 
         totalTagCount = self._artistTags.getTagCount() 
 
+        tagsToRemove = []
+
         for tag in self._artistTags.getTags():
             if not self._acceptTag(tag):
+                tagsToRemove.append(tag)
                 continue
 
             currentTagCount = self._artistTags.getTotalTagCount(tag)
@@ -61,11 +64,14 @@ class ArtistWeightCalc:
 
                 tagArtistWeights.add(tag, artist, tfidf)
 
+        for tag in tagsToRemove:
+            self._artistTags.remove(tag)
+
         return tagArtistWeights
 
     def _acceptTag(self, tag):
         """ Flags to disregard tags which are only used once. """
-        return len(self._artistTags.getArtistsWithTag(tag)) > 1
+        return len(self._artistTags.getArtistsWithTag(tag)) > 10
 
     def getArtistTags(self):
         return self._artistTags

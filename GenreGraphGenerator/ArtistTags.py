@@ -24,6 +24,14 @@ class ArtistTags:
         else:
             self._artistToTags[artist] = {tag}
 
+    def remove(self, tag):
+        artistsWithTag = tuple(self.getArtistsWithTag(tag))
+
+        del self._tagToArtists[tag]
+        for artist in artistsWithTag:
+            tags = self._artistToTags[artist]
+            tags.remove(tag)
+
     def getTags(self):
         return self._tagToArtists.keys()
 
@@ -32,6 +40,9 @@ class ArtistTags:
 
     def getArtistsWithTag(self, tag):
         return self._tagToArtists[tag].keys()
+
+    def getTagsWithArtist(self, artist):
+        return self._artistToTags[artist]
 
     def getArtistTagCount(self, artist):
         return len(self._artistToTags[artist])

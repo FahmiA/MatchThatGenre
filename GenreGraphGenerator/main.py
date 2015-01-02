@@ -35,17 +35,21 @@ Algorithm:
 if __name__ == '__main__':
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description='Produce genre-similarity graph by analysing artists tags and identifying related tags.')
-    parser.add_argument('--version', action='version', version='%(prog)s 0.1')
+    # Mandatory arguments
     parser.add_argument('path', help='Relative path to artist-tags file with the following format: musicbrainz-artist-id<sep>artist-name<sep>tag-name<sep>raw-tag-count')
     parser.add_argument('outputPath', help='Relative path to output graph file')
+    # Optional Arguments
+    parser.add_argument('--version', action='version', version='%(prog)s 0.1')
+    parser.add_argument('--minTagCount', type=int, default=10, help='Tags used fewer times will be excluded from the graph')
 
     args = parser.parse_args()
 
     path = args.path
     outputPath = args.outputPath
+    minTagCount = args.minTagCount
 
     print('Parsing input file...')
-    artistWeightCalc = ArtistWeightCalc()
+    artistWeightCalc = ArtistWeightCalc(minTagCount)
     with open(path, mode='r') as csvFile: # O(n)
 
         for line in csvFile:

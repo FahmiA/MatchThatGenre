@@ -12,7 +12,10 @@ class ArtistWeightCalc:
     artists tagged partially as "funk".
     """
 
-    def __init__(self):
+    def __init__(self, minTagCount):
+        # Tags used fewer times will be excluded from the graph
+        self._minTagCount = minTagCount
+
         # Map from artistId to artist object
         # Ensures uniqueness of Artist objects to save memory
         self._artists = {}
@@ -71,7 +74,7 @@ class ArtistWeightCalc:
 
     def _acceptTag(self, tag):
         """ Flags to disregard tags which are only used once. """
-        return len(self._artistTags.getArtistsWithTag(tag)) > 10
+        return len(self._artistTags.getArtistsWithTag(tag)) > self._minTagCount
 
     def getArtistTags(self):
         return self._artistTags

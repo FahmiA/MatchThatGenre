@@ -44,6 +44,7 @@ class TagRelationshipCalc:
         tags = self._tagArtistWeights.getTags()
         self._tags = tags
 
+        tagIndexes = self._artistTags.generateTagIndexMap() # O(n)
         exhaustedTags = set()
 
         i = 0
@@ -65,7 +66,7 @@ class TagRelationshipCalc:
 
                 if(self._acceptDistance(distance)):
                     #print(fromTag, fromArtistWeights, toTag, toArtistWeights, distance)
-                    self._tagLinks.append(TagLink(fromTag, toTag, 0, 0, distance))
+                    self._tagLinks.append(TagLink(fromTag, toTag, tagIndexes[fromTag], tagIndexes[toTag], distance))
 
             exhaustedTags.add(fromTag)
 

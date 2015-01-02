@@ -63,3 +63,15 @@ class ArtistTags:
 
     def getTotalTagCount(self, tag):
         return sum(self._tagToArtists[tag].values())
+
+    def generateTagIndexMap(self):
+        """ Generates an index for each tag """
+        indexMap = {}
+
+        i = 0
+        for tag in self._tagToArtists.keys():
+            indexMap[tag] = i
+            i += 1
+
+        return indexMap
+

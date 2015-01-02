@@ -69,7 +69,7 @@ class TagRelationshipCalc:
 
             exhaustedTags.add(fromTag)
 
-        print('Iterations:', i)
+        print('\tIterations:', i)
 
     def _calculateDistance(self, fromArtistWeights, toArtistWeights):
         fromWeights = []

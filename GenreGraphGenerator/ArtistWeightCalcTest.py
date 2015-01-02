@@ -48,20 +48,37 @@ class TestTagSimilarityCalc(unittest.TestCase):
         self._testArtistWeight(tagArtistWeights, 'funk', artist2, 0.192)
         self._testArtistWeight(tagArtistWeights, 'soul', artist2, 0.144)
 
-    def testMinTagCount(self):
+    def testPruneRemovesTags(self):
         self._artistWeightCalc.setMinTagCount(2)
 
         uuid = self._makeUUID()
         artist1 = self._artistWeightCalc.add(uuid, 'Funk Brothers', 'funk', 1)
+        self._artistWeightCalc.add(uuid, 'Funk Brothers', 'soul', 1)
         uuid = self._makeUUID()
         artist2 = self._artistWeightCalc.add(uuid, 'The Boomtown Rats', 'funk', 2)
-        self._artistWeightCalc.add(uuid, 'The Boomtown Rats', 'soul', 1)
 
         self._artistWeightCalc.pruneTags()
 
         tagArtistWeights = self._artistWeightCalc.getTagToArtistsWeights()
 
         self.assertEqual(1, tagArtistWeights.getTagCount(), 'Should have all tags used at least once')
+        self.assertTrue(tagArtistWeights.hasTag('funk'), 'Should keep tag "funk"')
+        self.assertFalse(tagArtistWeights.hasTag('soul'), 'Should remove tag "soul"')
+
+    def testPruneRemovesArtists(self):
+        self._artistWeightCalc.setMinTagCount(2)
+        uuid = self._makeUUID()
+        artist1 = self._artistWeightCalc.add(uuid, 'Funk Brothers', 'funk', 1)
+
+        self._artistWeightCalc.pruneTags()
+
+        tagArtistWeights = self._artistWeightCalc.getTagToArtistsWeights()
+        self.assertEqual(0, tagArtistWeights.getTagCount(), 'Should have all tags used at least once')
+
+        self.assertEqual(0, len(self._artistWeightCalc.getArtists()), 'No artists should exist')
+
+        artistTags = self._artistWeightCalc.getArtistTags()
+        self.assertFalse(artistTags.hasArtist(artist1), 'No artists should exist')
 
 
     def _testArtistWeight(self, tagArtistWeights, tag, artist, weight):

@@ -47,7 +47,10 @@ class ArtistWeightCalc:
                 tagsToRemove.append(tag)
 
         for tag in tagsToRemove:
-            self._artistTags.remove(tag)
+            artistsWithNoTags = self._artistTags.remove(tag)
+
+            for artist in artistsWithNoTags:
+                del self._artists[artist.getId()]
 
     def getTagToArtistsWeights(self):
         # Dictionary from tag to (Artist, weight)
@@ -83,5 +86,9 @@ class ArtistWeightCalc:
     def getArtistTags(self):
         return self._artistTags
 
+    def getArtists(self):
+        return self._artists
+
     def getStatsString(self):
-        return 'Stats. #artists: %d,  #tags: %d' % (len(self._artists), self._artistTags.getTagCount())
+        return 'Stats: #artists: %d,  #tags: %d' % (len(self._artists), self._artistTags.getTagCount())
+

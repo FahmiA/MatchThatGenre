@@ -75,9 +75,12 @@ class TagRelationshipCalc:
         fromWeights = []
         toWeights = []
 
-        allArtists = set(fromArtistWeights.keys())
-        toArtists = set(toArtistWeights.keys())
-        allArtists.update(toArtists)
+        allArtists = set()
+        for artist in fromArtistWeights.keys():
+            allArtists.add(artist)
+
+        for artist in toArtistWeights.keys():
+            allArtists.add(artist)
 
         for artist in allArtists:
             fromWeights.append(fromArtistWeights.get(artist, 0))

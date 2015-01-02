@@ -16,7 +16,7 @@ class TagArtistWeights:
         return len(self._artistWeights) == 0
 
     def getTags(self):
-        return tuple(self._artistWeights.keys())
+        return self._artistWeights.keys()
 
     def getTagCount(self):
         return len(self._artistWeights)

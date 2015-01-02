@@ -25,10 +25,9 @@ class ArtistTags:
             self._artistToTags[artist] = {tag}
 
     def remove(self, tag):
-        artistsWithTag = tuple(self.getArtistsWithTag(tag))
+        artistsWithTag = self.getArtistsWithTag(tag)
         artistsWithNoTags = []
 
-        del self._tagToArtists[tag]
         for artist in artistsWithTag:
             tags = self._artistToTags[artist]
             tags.remove(tag)
@@ -36,6 +35,8 @@ class ArtistTags:
             if len(tags) == 0:
                 del self._artistToTags[artist]
                 artistsWithNoTags.append(artist)
+
+        del self._tagToArtists[tag]
 
         return artistsWithNoTags
 

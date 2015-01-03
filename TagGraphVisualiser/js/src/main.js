@@ -10,6 +10,10 @@ function createGraph(graph) {
     var width = svgGraphClientBox.width;
     var height = svgGraphClientBox.height;
 
+    tagNameText = svgGraph.append('text')
+        .attr('x', 15)
+        .attr('y', 15);
+
     var force = d3.layout.force()
         .charge(-120)
         .linkDistance(30)
@@ -24,7 +28,7 @@ function createGraph(graph) {
         .append("line")
         .attr("class", "link")
         .style("stroke-width", function(d) {
-            return Math.sqrt(d.value);
+            return (1 - d.value) * 2;
         });
 
     var node = svgGraph.selectAll(".node")
@@ -32,8 +36,15 @@ function createGraph(graph) {
         .enter()
         .append("circle")
         .attr("class", "node")
-        .attr("r", 5)
-        .style("fill", "red")
+        .attr("r", function(d) {
+            return Math.sqrt(d.artistCount)
+        })
+        .on('mouseover', function(d) {
+            tagNameText.text(d.name);
+        })
+        .on('mouseout', function(d) {
+            tagNameText.text('');
+        })
         .call(force.drag);
 
     node.append("title")

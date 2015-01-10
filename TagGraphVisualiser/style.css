@@ -5,6 +5,18 @@
 }
 
 .node {
+    fill: sienna;
+}
+
+.node.selected {
+    fill: forestgreen;
+}
+
+.node.nearby {
+    fill: navy;
+}
+
+.node.option {
     fill: red;
 }
 

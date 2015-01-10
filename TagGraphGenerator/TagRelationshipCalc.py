@@ -12,7 +12,8 @@ class TagRelationshipCalc:
         self._artistTags = artistTags
         self._tagArtistWeights = tagArtistWeights
 
-        self._usedTags = set()
+        self._usedTagsMap = {}
+        self._usedTagsList = []
         self._tagLinks = []
 
         # Further links will be excluded
@@ -22,19 +23,21 @@ class TagRelationshipCalc:
         self._minLinkDistance = minLinkDistance
 
     def process(self):
-        allTags = self._tagArtistWeights.getTags()
-        self._usedTags.clear()
+        self._usedTagsMap.clear()
+        self._usedTagsList.clear()
 
-        tagIndexes = self._artistTags.generateTagIndexMap() # O(n)
+        allTags = self._tagArtistWeights.getTags()
+
+        #tagIndexes = self._artistTags.generateTagIndexMap() # O(n)
         exhaustedTags = set()
 
         i = 0
         for fromTag in allTags:
             fromArtistWeights = self._tagArtistWeights.getArtistsWeights(fromTag)
-            fromTagIndex = tagIndexes[fromTag]
 
             exhaustedTags.add(fromTag)
 
+            # Identify all related tags that haven't yet been fully processed
             artists = self._artistTags.getArtistsWithTag(fromTag)
             relatedTags = set()
             for artist in artists:
@@ -50,13 +53,25 @@ class TagRelationshipCalc:
 
                 #print('%s -> %s -> %0.2f' % (fromTag, toTag, distance))
                 if(self._acceptDistance(distance)):
+                    self._markTagAsUsed(fromTag)
+                    self._markTagAsUsed(toTag)
+
+                    fromTagIndex = self._getUsedTagIndex(fromTag)
+                    toTagIndex = self._getUsedTagIndex(toTag)
+
                     #print(fromTag, fromArtistWeights, toTag, toArtistWeights, distance)
-                    self._tagLinks.append(TagLink(fromTag, toTag, fromTagIndex, tagIndexes[toTag], distance))
+                    self._tagLinks.append(TagLink(fromTag, toTag, fromTagIndex, toTagIndex, distance))
                     
-                    self._usedTags.add(fromTag)
-                    self._usedTags.add(toTag)
 
         print('\tIterations:', i)
+
+    def _markTagAsUsed(self, tag):
+        if tag not in self._usedTagsMap:
+            self._usedTagsMap[tag] = len(self._usedTagsList)
+            self._usedTagsList.append(tag)
+
+    def _getUsedTagIndex(self, tag):
+        return self._usedTagsMap[tag]
 
     def _calculateDistance(self, fromArtistWeights, toArtistWeights):
         fromWeights = []
@@ -92,7 +107,7 @@ class TagRelationshipCalc:
         return distance < abs(self._minLinkDistance)
 
     def getTags(self):
-        return self._usedTags
+        return self._usedTagsList
 
     def getTagLinks(self):
         return self._tagLinks

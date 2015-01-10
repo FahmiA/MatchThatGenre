@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function(event) { 
-    d3.json("dataLarge.json", function(error, graph) {
+    d3.json("TagGraph5k.json", function(error, graph) {
         createGraph(graph);
     });
 });

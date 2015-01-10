@@ -1,6 +1,7 @@
 # Extracted artist-tag data files
 *.dat
 Lastfm-ArtistTags2007/
+*.json
 
 # Temperary files
 out

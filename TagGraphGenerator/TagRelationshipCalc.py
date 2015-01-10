@@ -12,7 +12,7 @@ class TagRelationshipCalc:
         self._artistTags = artistTags
         self._tagArtistWeights = tagArtistWeights
 
-        self._tags = ()
+        self._usedTags = set()
         self._tagLinks = []
 
         # Further links will be excluded
@@ -22,14 +22,14 @@ class TagRelationshipCalc:
         self._minLinkDistance = minLinkDistance
 
     def process(self):
-        tags = self._tagArtistWeights.getTags()
-        self._tags = tags
+        allTags = self._tagArtistWeights.getTags()
+        self._usedTags.clear()
 
         tagIndexes = self._artistTags.generateTagIndexMap() # O(n)
         exhaustedTags = set()
 
         i = 0
-        for fromTag in tags:
+        for fromTag in allTags:
             fromArtistWeights = self._tagArtistWeights.getArtistsWeights(fromTag)
             fromTagIndex = tagIndexes[fromTag]
 
@@ -52,6 +52,9 @@ class TagRelationshipCalc:
                 if(self._acceptDistance(distance)):
                     #print(fromTag, fromArtistWeights, toTag, toArtistWeights, distance)
                     self._tagLinks.append(TagLink(fromTag, toTag, fromTagIndex, tagIndexes[toTag], distance))
+                    
+                    self._usedTags.add(fromTag)
+                    self._usedTags.add(toTag)
 
         print('\tIterations:', i)
 
@@ -89,7 +92,7 @@ class TagRelationshipCalc:
         return distance < abs(self._minLinkDistance)
 
     def getTags(self):
-        return self._tags
+        return self._usedTags
 
     def getTagLinks(self):
         return self._tagLinks

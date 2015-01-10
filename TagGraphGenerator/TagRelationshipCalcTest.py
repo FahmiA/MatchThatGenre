@@ -17,8 +17,8 @@ class TestTagSimilarityCalc(unittest.TestCase):
     def testWithNoData(self):
         self._tagRelationshipCalc.process()
 
-        tags = self._tagRelationshipCalc.getTags() 
-        tagLinks = self._tagRelationshipCalc.getTagLinks() 
+        tags = self._tagRelationshipCalc.getTags()
+        tagLinks = self._tagRelationshipCalc.getTagLinks()
 
         self.assertEqual(0, len(tags), 'Should have no tags')
         self.assertEqual(0, len(tagLinks), 'Should have no tag links')
@@ -47,6 +47,27 @@ class TestTagSimilarityCalc(unittest.TestCase):
 
         self.assertTrue(('funk', 'soul') in tagLinkMap, 'Link should exist')
         self.assertAlmostEqual(0.553, tagLinkMap[('funk', 'soul')], 3, 'Link distance should be correct')
+
+    def testGetTags(self):
+        artist1 = Artist(self._makeUUID(), 'artist1')
+        artist2 = Artist(self._makeUUID(), 'artist2')
+
+        self._addArtistTag(artist1, 'funk', 1, 1.0)
+        self._addArtistTag(artist2, 'soul', 2, 1.0)
+
+        self._tagRelationshipCalc.setMinLinkDistance(2) # Accept all
+        self._tagRelationshipCalc.process()
+
+        tags = self._tagRelationshipCalc.getTags()
+        tagLinks = self._tagRelationshipCalc.getTagLinks()
+
+        self.assertEqual(0, len(tags), 'Should have no tags')
+        self.assertEqual(0, len(tagLinks), 'Should have no tag links')
+
+        self.assertFalse('funk' in tags, 'Tag "funk" should not exist')
+        self.assertFalse('soul' in tags, 'Tag "soul" should not exist')
+
+        tagLinkMap = self._asTagLinkMap(tagLinks)
 
     def _addArtistTag(self, artist, tag, tagCount, artistWeight):
         self._artistToTags.add(artist, tag, tagCount)

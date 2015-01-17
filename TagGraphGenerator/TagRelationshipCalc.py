@@ -17,10 +17,10 @@ class TagRelationshipCalc:
         self._tagLinks = []
 
         # Further links will be excluded
-        self._minLinkDistance = 0.3
+        self._maxLinkDist = 0.3
 
-    def setMinLinkDistance(self, minLinkDistance):
-        self._minLinkDistance = minLinkDistance
+    def setMaxLinkDistance(self, maxLinkDistance):
+        self._maxLinkDistance = maxLinkDistance
 
     def process(self):
         self._usedTagsMap.clear()
@@ -104,7 +104,7 @@ class TagRelationshipCalc:
         return 1.0 - ab_sum / math.sqrt(a_sum * b_sum)
 
     def _acceptDistance(self, distance):
-        return distance < abs(self._minLinkDistance)
+        return distance < abs(self._maxLinkDistance)
 
     def getTags(self):
         return self._usedTagsList

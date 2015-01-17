@@ -31,7 +31,7 @@ class TestTagSimilarityCalc(unittest.TestCase):
         self._addArtistTag(artist2, 'funk', 1, 0.5)
         self._addArtistTag(artist2, 'soul', 2, 1.0)
 
-        self._tagRelationshipCalc.setMinLinkDistance(2) # Accept all
+        self._tagRelationshipCalc.setMaxLinkDistance(2) # Accept all
         self._tagRelationshipCalc.process()
 
         tags = self._tagRelationshipCalc.getTags() 
@@ -55,7 +55,7 @@ class TestTagSimilarityCalc(unittest.TestCase):
         self._addArtistTag(artist1, 'funk', 1, 1.0)
         self._addArtistTag(artist2, 'soul', 2, 1.0)
 
-        self._tagRelationshipCalc.setMinLinkDistance(2) # Accept all
+        self._tagRelationshipCalc.setMaxLinkDistance(2) # Accept all
         self._tagRelationshipCalc.process()
 
         tags = self._tagRelationshipCalc.getTags()

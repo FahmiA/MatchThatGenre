@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function(event) { 
-    d3.json("TagGraph500k.json", function(error, graphData) {
+    d3.json("TagGraph50k.json", function(error, graphData) {
         createGraph(graphData);
     });
 });
@@ -15,12 +15,42 @@ function createGraph(graphData) {
 
     tagGraphView.getDispatcher().on('nodeSelected', function(data) {
         var nodeId = data.index;
-        var nodeNeighbourIds = tagGraphModel.getNeighbours(nodeId);
 
         tagGraphView.unmarkNearbyNodes();
-        nodeNeighbourIds.forEach(function(nodeNeighbourId) {
-            tagGraphView.markNodeAsNearby(nodeNeighbourId);
-        });
+        markNeighbours(tagGraphView, tagGraphModel, nodeId, 3);
     });
+}
+
+function markNeighbours(tagGraphView, tagGraphModel, nodes, maxSteps, visitedNodes, step) {
+    visitedNodes = visitedNodes || {};
+    step = step || 1;
+
+    // Handle the case where nodes isn a single node
+    if(!Array.isArray(nodes)) {
+        visitedNodes[nodes] = true;
+        nodes = [nodes];
+    }
+
+    if(step > maxSteps) {
+        return;
+    }
+
+    var nextNodes = [];
+    for(var i = 0; i < nodes.length; i++) {
+        var nodeId = nodes[i];
+        var nodeNeighbourIds = tagGraphModel.getNeighbours(nodeId);
+
+        for(var j = 0; j < nodeNeighbourIds.length; j++) {
+            var nodeNeighbourId = nodeNeighbourIds[j];
+
+            if(!(nodeNeighbourId in visitedNodes)) {
+                tagGraphView.markNodeAsNearby(nodeNeighbourId, step);
+                visitedNodes[nodeNeighbourId] = true;
+                nextNodes.push(nodeNeighbourId);
+            }
+        }
+    }
+
+    markNeighbours(tagGraphView, tagGraphModel, nextNodes, maxSteps, visitedNodes, step + 1);
 }
 

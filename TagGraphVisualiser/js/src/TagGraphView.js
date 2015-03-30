@@ -24,10 +24,15 @@ TagGraphView.prototype = {
     },
 
     /** Mark a node with the given id as "nearby". */
-    markNodeAsNearby: function(nodeId) {
+    markNodeAsNearby: function(nodeId, distance) {
+        distance = distance || 1;
+        distance = Math.min(3, distance);
+        distance = Math.max(1, distance);
+
         var node = this.getNodeElementWithId(nodeId);
         this._nearbyNodes.push(node);
         node.classed('nearby', true);
+        node.classed('nearby-dist-' + distance, true);
     },
 
     /** Mark a node with the given id as "option". */
@@ -66,6 +71,9 @@ TagGraphView.prototype = {
     unmarkNode: function(node) {
         node.classed('selected', false)
             .classed('nearby', false)
+            .classed('nearby-dist-1', false)
+            .classed('nearby-dist-2', false)
+            .classed('nearby-dist-3', false)
             .classed('option', false);
     },
 

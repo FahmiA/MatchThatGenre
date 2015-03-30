@@ -16,6 +16,18 @@
     fill: navy;
 }
 
+.node.nearby.nearby-dist-1 {
+    opacity: 0.8;
+}
+
+.node.nearby.nearby-dist-2 {
+    opacity: 0.6;
+}
+
+.node.nearby.nearby-dist-3 {
+    opacity: 0.4;
+}
+
 .node.option {
     fill: red;
 }

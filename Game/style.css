@@ -3,41 +3,55 @@ body {
 }
 
 #header {
-/*    outline: 1px solid black;*/
-    
     float: left;
     width: 100%;
     
     height: 20%;
     
-/*    display: flex;*/
-/*    align-items: center;*/
-/*    justify-content: center;*/
-    
     text-align: center;
     vertical-align: middle;
-    
-/*    background: url(Backgrounds/Retro%20Spectrum.jpg);*/
-/*    background-size: 100%;*/
-/*    background-position: 0px -200px;*/
 }
 
-#genreOptions {
-/*    outline: 1px solid blue;*/
-    
+#content {
+    position: relative;
     float: left;
     width: 100%;
+    height: 80%;
+}
+
+#album-background {
+    position: relative;
+    
+    
+    height: 100%;
     
     overflow: hidden;
 }
 
-.genre-option {
-    position: relative;
-    
+.album-template {
+    float: left;
     width: 20%;
-    height: 80%;
+}
+
+#genre-options {
+    position: absolute;
+    top: 47%;
+    left: 0px;
+    right: 0px;
     
-    overflow: hidden;
+    background-color: rgba(255, 255, 255, 0.8)
+}
+
+#genre-options ul {
+    list-style-type: none;
+    text-align: center;
+    padding: 0px;
+}
+
+#genre-options li {
+    display:inline-block;
+    width: 20%;
+    font-size: 3em
 }
 
 .album-cover {
@@ -83,25 +97,12 @@ body {
     background-image: url(AlbumCovers/5.jpeg);
 }
 
-.genre-title {
-    position: absolute;
-    
-    top: 20%;
-    width: 100%;
-    
-    text-align: center;
-    background-color: white;
-    
-    font-size: 2em
-}
-
 .fadeFooter {
     position: absolute;
     
     left: 0px;
     right: 0px;
     bottom: 0px;
-/*    border: 3px solid black;*/
     
     height: 10%;
 

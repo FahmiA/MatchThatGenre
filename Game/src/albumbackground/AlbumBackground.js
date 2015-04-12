@@ -17,6 +17,53 @@ define(['./AlbumTemplates'], function(AlbumTemplates) {
                     this._containerElement.appendChild(element);
                 }
             }
+        },
+        
+        highlight: function(id) {
+            var fullID = 'album-' + id;
+            
+            var albumCoversNodeList = document.querySelectorAll('.album-cover');
+            var albumCovers = Array.prototype.slice.call(albumCoversNodeList);
+            
+            for(var i = 0; i < albumCovers.length; i++) {
+                var albumCover = albumCovers[i];
+                
+                if(albumCover.classList.contains(fullID)) {
+                    this._delayHighlightAlbumCover(albumCover);
+                } else {
+                    this._delayLowlightAlbumCover(albumCover);
+                    
+                }
+            }
+            
+        },
+        
+        _delayHighlightAlbumCover: function(albumCover) {
+            var delayMs = this._calculateAnimationDelayMs();
+            
+            setTimeout(function() {
+                albumCover.classList.remove('lowlight');
+                albumCover.classList.add('highlight');
+            }, delayMs);
+        },
+        
+        _delayLowlightAlbumCover: function(albumCover) {
+            var delayMs = this._calculateAnimationDelayMs();
+            
+            if(albumCover.classList.contains('highlight')) {
+                setTimeout(function() {
+                    albumCover.classList.remove('highlight');
+                    albumCover.classList.add('lowlight');
+                }, delayMs);
+            }
+        },
+        
+        _calculateAnimationDelayMs: function() {
+            var minTimeMs = 0;
+            var maxTimeMs = 700;
+            
+            var rangeTimeMs = maxTimeMs - minTimeMs;
+            return minTimeMs + (Math.random() * rangeTimeMs);
         }
     };
     

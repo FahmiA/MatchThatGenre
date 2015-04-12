@@ -77,6 +77,83 @@ body {
     padding-top: 100%;
 }
 
+.album-cover.highlight {
+    -webkit-animation: partialFadeIn 1.5s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: partialFadeIn 1.5s; /* Firefox < 16 */
+        -ms-animation: partialFadeIn 1.5s; /* Internet Explorer */
+         -o-animation: partialFadeIn 1.5s; /* Opera < 12.1 */
+            animation: partialFadeIn 1.5s;
+    opacity: 1.0;
+}
+
+keyframes partialFadeIn {
+    from { opacity: 0.7; }
+    to   { opacity: 1.0; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes partialFadeIn {
+    from { opacity: 0.7; }
+    to   { opacity: 1.0; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes partialFadeIn {
+    from { opacity: 0.7; }
+    to   { opacity: 1.0; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes partialFadeIn {
+    from { opacity: 0.7; }
+    to   { opacity: 1.0; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes partialFadeIn {
+    from { opacity: 0.7; }
+    to   { opacity: 1.0; }
+}
+
+.album-cover.lowlight {
+    -webkit-animation: partialFadeOut 1.5s; /* Safari, Chrome and Opera > 12.1 */
+       -moz-animation: partialFadeOut 1.5s; /* Firefox < 16 */
+        -ms-animation: partialFadeOut 1.5s; /* Internet Explorer */
+         -o-animation: partialFadeOut 1.5s; /* Opera < 12.1 */
+            animation: partialFadeOut 1.5s;
+    opacity: 0.7;
+}
+
+keyframes partialFadeOut {
+    from { opacity: 1.0; }
+    to   { opacity: 0.7; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes partialFadeOut {
+    from { opacity: 1.0; }
+    to   { opacity: 0.7; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes partialFadeOut {
+    from { opacity: 1.0; }
+    to   { opacity: 0.7; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes partialFadeOut {
+    from { opacity: 1.0; }
+    to   { opacity: 0.7; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes partialFadeOut {
+    from { opacity: 1.0; }
+    to   { opacity: 0.7; }
+}
+
+
 .album-1 {
     background-image: url(AlbumCovers/1.jpeg);
 }

@@ -49,9 +49,18 @@ body {
 }
 
 #genre-options li {
-    display:inline-block;
+    display: inline-block;
     width: 20%;
-    font-size: 3em
+    font-size: 3em;
+    cursor: pointer;
+}
+
+#genre-options li:hover {
+    outline: 1px solid black;
+}
+
+#genre-options li:active {
+    outline: 2px solid black;
 }
 
 .album-cover {
@@ -68,7 +77,8 @@ body {
     background-repeat: no-repeat;
     
     opacity: 0.7;
-    transition: opacity 1.5s, box-shadow 1.5s;
+/*    transition: opacity 0.5s, box-shadow 1.5s;*/
+    transition: opacity 0.5s;
 }
 
 .album-big {
@@ -81,11 +91,13 @@ body {
 .album-cover.highlight {
     opacity: 1.0;
     
+/*
     -webkit-box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 1.0);
        -moz-box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 1.0);
         -ms-box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 1.0);
          -o-box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 1.0);
             box-shadow: 2px 2px 20px 2px rgba(0, 0, 0, 1.0);
+*/
     
 }
 
@@ -135,3 +147,10 @@ body {
                                  rgba(255, 255, 255, 1) 40%);
 }
 
+#genre-options .correct {
+    color: forestgreen;
+}
+
+#genre-options .incorrect {
+    color: crimson;
+}

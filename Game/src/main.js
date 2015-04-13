@@ -8,7 +8,7 @@ require(['./albumbackground/AlbumBackground'],
     var genreOptionsNodeList = document.querySelectorAll('#genre-options > ul > li');
     var genreOptions = Array.prototype.slice.call(genreOptionsNodeList);
     genreOptions.forEach(function(genreOption, index) {
-        genreOption.addEventListener('click', function() {
+        genreOption.addEventListener('mouseover', function() {
             albumBackground.highlight(index + 2);
         });
     });

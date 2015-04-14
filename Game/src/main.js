@@ -1,7 +1,9 @@
-require(['./albumbackground/AlbumBackground'],
-        function(AlbumBackground) {
+require(['Director'],
+        function(Director) {
     
-    var backgroundDiv = document.querySelector('#album-background');
+    var director = new Director();
+    
+    /*var backgroundDiv = document.querySelector('#album-background');
     var albumBackground = new AlbumBackground(backgroundDiv);
     albumBackground.create();
     
@@ -11,5 +13,5 @@ require(['./albumbackground/AlbumBackground'],
         genreOption.addEventListener('mouseover', function() {
             albumBackground.highlight(index + 2);
         });
-    });
+    });*/
 });

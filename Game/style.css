@@ -35,7 +35,7 @@ body {
 
 #genre-options {
     position: absolute;
-    top: 47%;
+    top: 36%;
     left: 0px;
     right: 0px;
     
@@ -153,4 +153,16 @@ body {
 
 #genre-options .incorrect {
     color: crimson;
+}
+
+#play-button {
+    /* Bring the icon in-line with the remaining text. */
+    line-height: 100%;
+    vertical-align: text-top;
+    
+    cursor: pointer;
+}
+
+#play-button:hover {
+    opacity: 0.5;
 }

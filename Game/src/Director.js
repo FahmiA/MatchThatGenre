@@ -1,15 +1,24 @@
 define([
             'view/RoundView',
             'view/PlayerView',
-            'albumbackground/AlbumBackground'
+            'albumbackground/AlbumBackground',
+            'model/GenreGraph'
         ],
-        function(RoundView, PlayerView, AlbumBackground) {
+        function(RoundView, PlayerView, AlbumBackground, GenreGraph) {
 
     var Director = function() {
         // Construct the views
         this._round = this._makeRoundView();
         this._player = this._makePlayerView();
         this._background = this._makeAlbumBackground();
+        
+        var genreGraph = new GenreGraph();
+        genreGraph.load('TagGraph50k.json')
+            .fail(function() {
+                console.log('Failed to retrieve genre graph from server');
+                console.log(arguments);
+            });
+                            
 //        this._genreOptions = new GenreOptionsView();
         
         // Construct the game model

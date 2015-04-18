@@ -2,5 +2,6 @@
     "globals": {
         "define": true,
         "require": true
-    }
+    },
+    "-W041": false
 }

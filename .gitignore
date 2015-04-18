@@ -8,3 +8,7 @@ __pycache__
 # Code Utilities
 tags
 
+# NodeJs
+node_modules
+npm-debug.log
+

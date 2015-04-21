@@ -49,7 +49,13 @@ describe('GenreGraph', function() {
             });
     });
     
-    xit('should throw exception for genre that dsoesn\'t exist', function() {
+    it('should throw exception for genre that dsoesn\'t exist', function() {
+        var promise = genreGraph.load(url)
+           .then(function() {
+                genreGraph.getNeighbours('nonexistentGenre', 1);
+            });
+        
+        return expect(promise).to.eventually.be.rejectedWith(Error);
     });
         
     function neighboursEqual(genreNodes, actualGenres) {

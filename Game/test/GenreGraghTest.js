@@ -16,5 +16,50 @@ describe('GenreGraph', function() {
         var invalidURL = "someOtherURL";
         return expect(genreGraph.load(invalidURL)).to.eventually.be.rejectedWith(Error);
     });
+    
+    it('should return direct neighbours', function() {
+        return genreGraph.load(url)
+            .then(function() {
+                var neighbours = genreGraph.getNeighbours('a', 1);
+                neighboursEqual(neighbours, ['b', 'c', 'd']);
+            });
+    });
+    
+    it('should return neighbours at distance 2', function() {
+         return genreGraph.load(url)
+            .then(function() {
+                var neighbours = genreGraph.getNeighbours('a', 2);
+                neighboursEqual(neighbours, ['e', 'f']);
+            });
+    });
+    
+    it('should return no neighbours at distance 0', function() {
+        return genreGraph.load(url)
+            .then(function() {
+                var neighbours = genreGraph.getNeighbours('a', 0);
+                neighboursEqual(neighbours, []);
+            });
+    });
+    
+    it('should return no neighbours at distance -1', function() {
+        return genreGraph.load(url)
+            .then(function() {
+                var neighbours = genreGraph.getNeighbours('a', -1);
+                neighboursEqual(neighbours, []);
+            });
+    });
+    
+    xit('should throw exception for genre that dsoesn\'t exist', function() {
+    });
+        
+    function neighboursEqual(genreNodes, actualGenres) {
+        expect(genreNodes).to.be.defined;
+        
+        var retrievedGenres = genreNodes.map(function(genreNode) {
+            return genreNode.genre;
+        });
+        
+        expect(retrievedGenres).to.deep.equal(actualGenres);
+    }
 });
 

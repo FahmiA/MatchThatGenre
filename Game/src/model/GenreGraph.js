@@ -10,7 +10,7 @@ define(function() {
                     .then(this._loadJsonGraph.bind(this));
         },
         
-        getNeighbours: function(genre, distance) {
+        getNeighbours: function(genre, distance, ignoreMap) {
             if(distance == null) {
                 distance = 1;
             } else if(distance < 1) {
@@ -22,9 +22,25 @@ define(function() {
                 throw new Error('Cannot query similar genres because genre "' + genre + '" is not found.');
             }
             
-            var neighbours = genreNode.neighbours.slice();
+            ignoreMap = ignoreMap || {};
+            
+            if(distance === 1) {
+                return neighbours = genreNode.neighbours.filter(function(link) {
+                        return !ignoreMap[link.to.genre];
+                    })
+                    .map(function(link) {
+                        ignoreMap[link.to.genre] = true;
+                        return link.to;
+                    });
+            }
+            
+            var neighbours = [];
             for(var i = 0; i < genreNode.neighbours.length; i++) {
-                neighbours = neighbours.concat(this.getNeighbours(genreNode.neighbours[i].genre, distance - 1));
+                var neighbourNode = genreNode.neighbours[i].to;
+                if(!ignoreMap[neighbourNode.genre]) {
+                    ignoreMap[neighbourNode.genre] = true;
+                    neighbours = neighbours.concat(this.getNeighbours(neighbourNode.genre, distance - 1, ignoreMap));
+                }
             }
             
             return neighbours;

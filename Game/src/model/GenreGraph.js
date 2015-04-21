@@ -51,7 +51,7 @@ define(function() {
             
             this._genreNodes = {};
             for(var j = 0; j < genreNodes.length; j++) {
-                this._genreNodes[genreNodes[j].genre] = genreNode;
+                this._genreNodes[genreNodes[j].genre] = genreNodes[j];
             }
         },
         

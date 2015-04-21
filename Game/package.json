@@ -9,6 +9,7 @@
         "mocha": "2.2.4",
         "chai": "2.2.0",
         "chai-as-promised": "5.0.0",
+        "node-static": "0.7.6",
         "requirejs": "2.1.17",
         "node-fetch": "1.1.0",
         "promise": "7.0.0"

@@ -10,36 +10,43 @@ define(function() {
                     .then(this._loadJsonGraph.bind(this));
         },
         
-        getNeighbours: function(genre, distance, ignoreMap) {
+        getNeighbours: function(genre, distance) {
             if(distance == null) {
                 distance = 1;
             } else if(distance < 1) {
                 return [];
             }
             
-            var genreNode = this._genreNodes[genre];
-            if(genreNode == null) {
+            if(this._genreNodes[genre] == null) {
                 throw new Error('Cannot query similar genres because genre "' + genre + '" is not found.');
             }
             
-            ignoreMap = ignoreMap || {};
-            
-            if(distance === 1) {
-                return neighbours = genreNode.neighbours.filter(function(link) {
-                        return !ignoreMap[link.to.genre];
-                    })
-                    .map(function(link) {
-                        ignoreMap[link.to.genre] = true;
-                        return link.to;
-                    });
-            }
+            var ignoreMap = {};
+            var neighbours = this._getNeighbours(genre, distance, ignoreMap);
+            return neighbours;
+        },
+        
+        _getNeighbours: function(genre, distance, ignoreMap) {
+            var genreNode = this._genreNodes[genre];
             
             var neighbours = [];
-            for(var i = 0; i < genreNode.neighbours.length; i++) {
-                var neighbourNode = genreNode.neighbours[i].to;
-                if(!ignoreMap[neighbourNode.genre]) {
-                    ignoreMap[neighbourNode.genre] = true;
-                    neighbours = neighbours.concat(this.getNeighbours(neighbourNode.genre, distance - 1, ignoreMap));
+            if(distance === 1) {
+                for(var i = 0; i < genreNode.neighbours.length; i++) {
+                    var neighbourNode = genreNode.neighbours[i].to;
+                    
+                    if(!ignoreMap[neighbourNode.genre]) {
+                        ignoreMap[neighbourNode.genre] = true;
+                        neighbours.push(neighbourNode);
+                    }
+                }
+            } else {
+                for(var i = 0; i < genreNode.neighbours.length; i++) {
+                    var neighbourNode = genreNode.neighbours[i].to;
+                    
+                    if(!ignoreMap[neighbourNode.genre]) {
+                        ignoreMap[neighbourNode.genre] = true;
+                        neighbours.push.apply(neighbours, this._getNeighbours(neighbourNode.genre, distance - 1, ignoreMap));
+                    }
                 }
             }
             

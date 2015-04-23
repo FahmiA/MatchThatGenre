@@ -1,23 +1,36 @@
 define([
             'view/RoundView',
             'view/PlayerView',
+            'view/GenreOptionsView',
             'albumbackground/AlbumBackground',
-            'model/GenreGraph'
+            'model/GenreGraph',
+            'model/RoundMaker'
         ],
-        function(RoundView, PlayerView, AlbumBackground, GenreGraph) {
+        function(RoundView, PlayerView, GenreOptionsView, AlbumBackground, GenreGraph, RoundMaker) {
 
     var Director = function() {
         // Construct the views
         this._round = this._makeRoundView();
         this._player = this._makePlayerView();
         this._background = this._makeAlbumBackground();
+        this._genreOptions = this._makeGenreOptions();
         
         var genreGraph = new GenreGraph();
+        this._roundMaker = new RoundMaker(genreGraph);
+        
         genreGraph.load('TagGraph50k.json')
-            .fail(function() {
+            .catch(function() {
                 console.log('Failed to retrieve genre graph from server');
                 console.log(arguments);
-            });
+            })
+            .then(function() {
+                var genreNodes = this._roundMaker.makeFirstRound('pop');
+                var genres = genreNodes.slice(0,  4)
+                    .map(function(genreNode) {
+                        return genreNode.genre;
+                    });
+                this._genreOptions.setGenres(genres);
+            }.bind(this));
                             
 //        this._genreOptions = new GenreOptionsView();
         
@@ -50,6 +63,13 @@ define([
 //            albumBackground.create();
             
             return albumBackground;
+        },
+        
+        _makeGenreOptions: function() {
+            var backgroundDiv = document.querySelector('#genre-options');
+            var genreOptions = new GenreOptionsView(backgroundDiv);
+            
+            return genreOptions;
         }
     };
     

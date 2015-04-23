@@ -2,6 +2,7 @@ define(function() {
 
     var RoundView = function(roundNumberElement) {
         this._roundNumberElement = roundNumberElement;
+        this.update();
     };
     
     RoundView.prototype = {
@@ -13,10 +14,16 @@ define(function() {
         
         increment: function() {
             this._round++;
+            this.update();
         },
         
         reset: function() {
             this._round = 1;
+            this.update();
+        },
+        
+        update: function() {
+            this._roundNumberElement.innerText = this._round;
         }
     };
     

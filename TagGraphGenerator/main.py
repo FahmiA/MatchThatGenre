@@ -41,7 +41,8 @@ if __name__ == '__main__':
     # Optional Arguments
     parser.add_argument('--version', action='version', version='%(prog)s 0.1')
     parser.add_argument('--minTagCount', type=int, default=10, help='Tags used fewer times will be excluded from the graph')
-    parser.add_argument('--maxLinkDist', type=float, default=0.3, help='Links further than maxLinkDist will be excluded from the graph')
+    parser.add_argument('--maxLinkDist', type=float, default=TagRelationshipCalc.DEFAULT_MAX_LINK_DIST, help='Links further than maxLinkDist will be excluded from the graph')
+    parser.add_argument('--minLinkDist', type=float, default=TagRelationshipCalc.DEFAULT_MIN_LINK_DIST, help='Links closer than minLinkDist will be excluded from the graph')
 
     args = parser.parse_args()
 
@@ -49,6 +50,7 @@ if __name__ == '__main__':
     outputPath = args.outputPath
     minTagCount = args.minTagCount
     maxLinkDist = args.maxLinkDist
+    minLinkDist = args.minLinkDist
 
     print('Parsing input file...')
     artistWeightCalc = ArtistWeightCalc()
@@ -76,6 +78,7 @@ if __name__ == '__main__':
     print('Calculating tag similarity...')
     tagRelationshipCalc = TagRelationshipCalc(artistWeightCalc.getArtistTags(), tagToArtistWeights)
     tagRelationshipCalc.setMaxLinkDistance(maxLinkDist)
+    tagRelationshipCalc.setMinLinkDistance(minLinkDist)
     tagRelationshipCalc.process() # > O(n * n/2)
     
     print('Formating output graph...')

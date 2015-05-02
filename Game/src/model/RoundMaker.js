@@ -5,7 +5,7 @@ define(function() {
     };
     
     RoundMaker.prototype = {
-        INITIAL_DISTANCE: 4,
+        INITIAL_SIMILARITY: 0.7,
         
         makeFirstRound: function(genre) {
             this._nextGenre = genre;
@@ -14,15 +14,28 @@ define(function() {
         },
         
         makeNextRound: function(round) {
-            var neighbours = this._genreGraph.getNeighbours(this._nextGenre, this.INITIAL_DISTANCE - round - 1);
-            neighbours.push(this._nextGenre);
+            var maxSimilarity = this.INITIAL_SIMILARITY - ((round - 1) / 0.5);
+            console.log('Round ' + round + ', with max genre similarity of ' + maxSimilarity);
             
-            this._shuffle(neighbours);
-            
-            var randomIndex = parseInt(Math.random() * neighbours.length);
-            this._nextGenre = neighbours[randomIndex].genre;
-            
-            return neighbours;
+            var nextGenreNode = null;
+            var neighbours = [];
+            return this._genreGraph.getGenre(this._nextGenre)
+                .then(function(genreNode) {
+                    nextGenreNode = genreNode;
+                    return this._genreGraph.getNeighbours(this._nextGenre, maxSimilarity);
+                }.bind(this))
+                .then(function(neighbourGenreNodes) {
+                    neighbours = neighbourGenreNodes;
+                
+                    this._shuffle(neighbours);
+                
+                    var randomIndex = parseInt(Math.random() * neighbours.length);
+                    this._nextGenre = neighbours[randomIndex].genre;
+                
+                    neighbours.push(nextGenreNode);
+                
+                    return neighbours;
+                }.bind(this));
         },
         
         _shuffle: function(o) {

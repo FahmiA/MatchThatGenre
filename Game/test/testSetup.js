@@ -24,8 +24,8 @@ chai.use(chaiAsPromised);
 fetch = requirejs('node-fetch');
 
 /* Polyfil the "Promise" API. */
-promise = requirejs('promise');
-fetch.Promise = promise;
+Promise = requirejs('promise');
+fetch.Promise = Promise;
 
 /* Start a staic http server for serving test files. */
 var static = requirejs("node-static");

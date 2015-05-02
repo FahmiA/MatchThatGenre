@@ -1,0 +1,56 @@
+{
+    "response": {
+        "start": 0,
+        "genres": [
+            {
+                "description": "Chicago house refers to early house music created by Chicago DJs in the '80s. Chicago house mixed disco records with hip hop, funk, and electronic pop.",
+                "name": "chicago house",
+                "urls": {
+                    "wikipedia_url": "http://en.wikipedia.org/wiki/Chicago_house"
+                },
+                "similarity": 0.612022
+            },
+            {
+                "description": "Hip house, also called rap house, combines aspects of house music with hip hop. The style originated in the '80s in Chicago and New York. ",
+                "name": "hip house",
+                "urls": {
+                    "wikipedia_url": "http://en.wikipedia.org/wiki/Hip_house"
+                },
+                "similarity": 0.284153
+            },
+            {
+                "description": "Detroit techno is techno that originated in Detroit in the '80s. Early Detroit techno featured analog synthesizers and drum machines, especially the Roland TR-909; later techno sometimes digitally emulated the sound of these machines.",
+                "name": "detroit techno",
+                "urls": {
+                    "wikipedia_url": "http://en.wikipedia.org/wiki/Detroit_techno"
+                },
+                "similarity": 0.245902
+            },
+            {
+                "description": "Techno is a form of electronic dance music that emerged in Detroit in the late '80s. Its influences include funk, electro, Chicago house, and electric jazz. Techno is often instrumental, between 120 and 150 bpm, and purposefully repetitive for use in continuous DJ sets.",
+                "name": "techno",
+                "urls": {
+                    "wikipedia_url": "http://en.wikipedia.org/wiki/Techno"
+                },
+                "similarity": 0.240437
+            },
+            {
+                "description": "Electronic is a broad term for music that uses electronic instruments and technology for production. Though electric and mechanical instruments like drums or electric guitars sometimes appear, the genre is known for primarily using computer-based technologies.",
+                "name": "electronic",
+                "urls": {
+                    "wikipedia_url": "http://en.wikipedia.org/wiki/Electronic_music"
+                },
+                "similarity": 0.163934
+            },
+            {
+                "description": "Intelligent dance music (IDM) is an electronic music genre that emerged in the early '90s at the end of the British rave era. It's influenced by a wide range of electronic styles, especially variations of Detroit techno.",
+                "name": "intelligent dance music",
+                "urls": {
+                    "wikipedia_url": "http://en.wikipedia.org/wiki/Intelligent_dance_music"
+                },
+                "similarity": 0.142077
+            }
+        ],
+        "total": 6
+    }
+}

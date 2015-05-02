@@ -1,0 +1,13 @@
+{
+    "response": {
+        "genres": [
+            {
+                "name": "acousmatic",
+                "urls": {
+                    "wikipedia_url": "http://en.wikipedia.org/wiki/Acousmatic_music"
+                },
+                "description": "Acousmatic is electroacoustic music that is meant to be played on loudspeakers instead of by live performers. Acousmatic music exists as audio recordings and can contain both recognizable and unrecognizable sounds, manipulated using digital effects."
+            }
+        ]
+    }
+}

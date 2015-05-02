@@ -18,16 +18,15 @@ define([
         var genreGraph = new GenreGraph();
         this._roundMaker = new RoundMaker(genreGraph);
         
-        genreGraph.load('TagGraph50k.json')
-            .catch(function() {
-                console.log('Failed to retrieve genre graph from server');
-                console.log(arguments);
-            })
+        genreGraph.load()
             .then(function() {
-                var genreNodes = this._roundMaker.makeFirstRound('pop');
-                var genres = genreNodes.slice(0,  4)
+                return this._roundMaker.makeFirstRound('pop');
+            }.bind(this))
+            .then(function(genreNodes) {
+                var limit = Math.min(4, genreNodes.length);
+                var genres = genreNodes.slice(0,  limit)
                     .map(function(genreNode) {
-                        return genreNode.genre;
+                        return genreNode.name;
                     });
                 this._genreOptions.setGenres(genres);
             }.bind(this));

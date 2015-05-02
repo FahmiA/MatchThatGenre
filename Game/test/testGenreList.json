@@ -1,0 +1,38 @@
+{
+    "response": {
+        "start": 0,
+        "genres": [
+            {
+                "name": "a cappella"
+            },
+            {
+                "name": "abstract"
+            },
+            {
+                "name": "abstract hip hop"
+            },
+            {
+                "name": "abstract idm"
+            },
+            {
+                "name": "accordion"
+            },
+            {
+                "name": "acid house"
+            },
+            {
+                "name": "acid jazz"
+            },
+            {
+                "name": "acid techno"
+            },
+            {
+                "name": "acousmatic"
+            },
+            {
+                "name": "acoustic blues"
+            }
+        ],
+        "total": 1372
+    }
+}

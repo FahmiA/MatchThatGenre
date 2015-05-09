@@ -36,6 +36,14 @@ define([
                 ArrayUtil.shuffle(genres);
                 
                 this._genreOptions.setGenres(genres);
+                
+                var albumCoverPromises = genres.map(songBank.getAlbumCoversForGenre, songBank);
+                Promise.all(albumCoverPromises)
+                    .then(ArrayUtil.flatten)
+                    .then(ArrayUtil.unique)
+                    .then(function(albumCoverUrls) {
+                        console.log(albumCoverUrls);
+                    });
             
                 return round;
             }.bind(this))
@@ -45,7 +53,7 @@ define([
             .then(function(song) {
                 this._player.setSong(song);
             }.bind(this));
-                            
+            
 //        this._genreOptions = new GenreOptionsView();
         
         // Construct the game model

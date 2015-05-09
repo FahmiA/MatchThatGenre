@@ -21,9 +21,12 @@ define(function() {
 
             for(var i = 0; i < this.parameters.length; i++) {
                 var parameter = this.parameters[i];
+                var parameterKey = encodeURIComponent(parameter.key);
+                var parameterValue = encodeURIComponent(parameter.value);
+                
                 var delimiter = (i === 0) ? '?' : '&';
 
-                value += delimiter + parameter.key + '=' + parameter.value;
+                value += delimiter + parameterKey + '=' + parameterValue;
             }
 
             return value;

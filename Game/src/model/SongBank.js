@@ -1,4 +1,4 @@
-define(['./EchoNest', './SimpleURL', './Song', '../util/PromiseUtil'], function(EchoNest, SimpleURL, Song, PromiseUtil) {
+define(['./EchoNest', './SimpleURL', './Song', '../util/PromiseUtil', '../util/ArrayUtil'], function(EchoNest, SimpleURL, Song, PromiseUtil, ArrayUtil) {
     var SongBank = function() {
     };
     
@@ -7,6 +7,11 @@ define(['./EchoNest', './SimpleURL', './Song', '../util/PromiseUtil'], function(
             return this._getGenreArtists(genre)
                     .then(this._getListenableTrack.bind(this))
                     .then(this._makeSong.bind(this));
+        },
+        
+        getAlbumCoversForGenre: function(genre) {
+            return this._getGenreArtists(genre)
+                    .then(this._getAlbumCovers.bind(this));
         },
         
         _getGenreArtists: function(genre) {
@@ -90,6 +95,59 @@ define(['./EchoNest', './SimpleURL', './Song', '../util/PromiseUtil'], function(
             
             var song = new Song(songRecord.title, songRecord.artist_name, 'Unknown', -1, trackRecord.preview_url);
             return song;
+        },
+        
+        _getAlbumCovers: function(response) {
+            var artists = response.artists || [];
+            
+            if(artists.length < 1) {
+                throw new Error("No artists found for genre");
+            }
+            
+            /* To reduce the total number of API calls, we retrieve album art from
+             * the top artists only (not all).
+             */
+            var topArtists = artists.slice(0, 2);
+            
+            var trackPromises = topArtists.map(function(artist) {
+                var url = new SimpleURL('http://developer.echonest.com/api/v4/song/search');
+                url.addParameter('api_key', EchoNest.API_KEY)
+                   .addParameter('format', 'json')
+                   .addParameter('bucket', 'id:7digital-US')
+                   .addParameter('bucket', 'tracks')
+                   .addParameter('artist_id', artist.id);
+                   
+                var urlString = url.toString();
+                return fetch(urlString)
+                        .then(this._parseJSON)
+                        .then(this._getArtistAlbumCovers);
+            }, this);
+            
+            return Promise.all(trackPromises)
+                    .then(ArrayUtil.flatten);
+        },
+        
+        _getArtistAlbumCovers: function(response) {
+            var songs = response.songs || [];
+            
+            var albumCovers = [];
+            for(var i = 0; i < songs.length; i++) {
+                var song = songs[i];
+                
+                var tracks = song.tracks;
+                if(!tracks) {
+                    continue;
+                }
+                
+                for(var j = 0; j < tracks.length; j++) {
+                    var track = tracks[j];
+                    if(track.release_image) {
+                        albumCovers.push(track.release_image);
+                    }
+                }
+            }
+            
+            return albumCovers;
         },
         
         _parseJSON: function(response) {

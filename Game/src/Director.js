@@ -5,9 +5,10 @@ define([
             'albumbackground/AlbumBackground',
             'model/GenreGraph',
             'model/RoundMaker',
-            'model/SongBank'
+            'model/SongBank',
+            'util/ArrayUtil'
         ],
-        function(RoundView, PlayerView, GenreOptionsView, AlbumBackground, GenreGraph, RoundMaker, SongBank) {
+        function(RoundView, PlayerView, GenreOptionsView, AlbumBackground, GenreGraph, RoundMaker, SongBank, ArrayUtil) {
 
     var Director = function() {
         // Construct the views
@@ -30,6 +31,10 @@ define([
                     .map(function(genreNode) {
                         return genreNode.name;
                     });
+                genres.push(round.getTargetGenre().name);
+                
+                ArrayUtil.shuffle(genres);
+                
                 this._genreOptions.setGenres(genres);
             
                 return round;

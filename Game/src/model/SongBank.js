@@ -1,4 +1,4 @@
-define(['./EchoNest', './SimpleURL', './Song', './PromiseUtil'], function(EchoNest, SimpleURL, Song, PromiseUtil) {
+define(['./EchoNest', './SimpleURL', './Song', '../util/PromiseUtil'], function(EchoNest, SimpleURL, Song, PromiseUtil) {
     var SongBank = function() {
     };
     

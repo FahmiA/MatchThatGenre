@@ -1,4 +1,4 @@
-define(['./Round'], function(Round) {
+define(['./Round', '../util/ArrayUtil'], function(Round, ArrayUtil) {
     var RoundMaker = function(genreGraph) {
         this._genreGraph = genreGraph;
         this._nextGenre = null;
@@ -24,7 +24,7 @@ define(['./Round'], function(Round) {
                     return this._genreGraph.getNeighbours(this._nextGenre, maxSimilarity);
                 }.bind(this))
                 .then(function(neighbourGenreNodes) {
-                    this._shuffle(neighbourGenreNodes);
+                    ArrayUtil.shuffle(neighbourGenreNodes);
                 
                     var randomIndex = parseInt(Math.random() * neighbourGenreNodes.length);
                     this._nextGenre = neighbourGenreNodes[randomIndex].genre;
@@ -33,11 +33,6 @@ define(['./Round'], function(Round) {
                 
                     return round;
                 }.bind(this));
-        },
-        
-        _shuffle: function(o) {
-            for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
-            return o;
         }
     };
     

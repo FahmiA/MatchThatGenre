@@ -7,12 +7,11 @@ define(function() {
     
     Round.prototype = {
         getTargetGenre: function() {
-//            return this._targetGenreNode.name;
-            return 'Funk';
+            return this._targetGenreNode;
         },
         
         getDecoyGenres: function() {
-            return ['Rock', 'Hip-Hop', 'Electric'];
+            return this._decoyGenreNodes;
         },
         
         getAllGenres: function() {

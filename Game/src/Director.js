@@ -4,9 +4,10 @@ define([
             'view/GenreOptionsView',
             'albumbackground/AlbumBackground',
             'model/GenreGraph',
-            'model/RoundMaker'
+            'model/RoundMaker',
+            'model/SongBank'
         ],
-        function(RoundView, PlayerView, GenreOptionsView, AlbumBackground, GenreGraph, RoundMaker) {
+        function(RoundView, PlayerView, GenreOptionsView, AlbumBackground, GenreGraph, RoundMaker, SongBank) {
 
     var Director = function() {
         // Construct the views
@@ -16,19 +17,28 @@ define([
         this._genreOptions = this._makeGenreOptions();
         
         var genreGraph = new GenreGraph();
-        this._roundMaker = new RoundMaker(genreGraph);
+        var roundMaker = new RoundMaker(genreGraph);
+        var songBank = new SongBank();
         
         genreGraph.load()
             .then(function() {
-                return this._roundMaker.makeFirstRound('pop');
-            }.bind(this))
-            .then(function(genreNodes) {
-                var limit = Math.min(4, genreNodes.length);
-                var genres = genreNodes.slice(0,  limit)
+                return roundMaker.makeFirstRound('pop');
+            })
+            .then(function(round) {
+                var limit = Math.min(4, round.getDecoyGenres().length);
+                var genres = round.getDecoyGenres().slice(0,  limit)
                     .map(function(genreNode) {
                         return genreNode.name;
                     });
                 this._genreOptions.setGenres(genres);
+            
+                return round;
+            }.bind(this))
+            .then(function(round) {
+                return songBank.getSongForGenre(round.getTargetGenre().name);
+            })
+            .then(function(song) {
+                this._player.setSong(song);
             }.bind(this));
                             
 //        this._genreOptions = new GenreOptionsView();

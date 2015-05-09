@@ -27,7 +27,7 @@ define(function() {
             // Create list items
             this._genres.forEach(function(genre) {
                     var item = document.createElement('li');
-                    item.innerText = genre;
+                    item.textContent = genre;
                     list.appendChild(item);
                 });
             

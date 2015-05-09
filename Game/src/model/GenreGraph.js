@@ -1,6 +1,4 @@
-define(['./SimpleURL'], function(SimpleURL) {
-    var ECHO_NEST_API_KEY = 'KVBFT8M5F51MGFGCF';
-    
+define(['./EchoNest', './SimpleURL'], function(EchoNest, SimpleURL) {
     var GenreGragh = function() {
         this._genres = {};
     };
@@ -8,7 +6,7 @@ define(['./SimpleURL'], function(SimpleURL) {
     GenreGragh.prototype = {
         load: function() {
             var url = new SimpleURL('http://developer.echonest.com/api/v4/genre/list');
-            url.addParameter('api_key', ECHO_NEST_API_KEY)
+            url.addParameter('api_key', EchoNest.API_KEY)
                .addParameter('format', 'json')
                .addParameter('results', 2000);
             
@@ -24,7 +22,7 @@ define(['./SimpleURL'], function(SimpleURL) {
         
         getGenre: function(genre) {
             var url = new SimpleURL('http://developer.echonest.com/api/v4/genre/profile');
-            url.addParameter('api_key', ECHO_NEST_API_KEY)
+            url.addParameter('api_key', EchoNest.API_KEY)
                .addParameter('format', 'json')
                .addParameter('bucket', 'description')
                .addParameter('bucket', 'urls')
@@ -42,7 +40,7 @@ define(['./SimpleURL'], function(SimpleURL) {
         
         getNeighbours: function(genre, similarity) {
             var url = new SimpleURL('http://developer.echonest.com/api/v4/genre/similar');
-            url.addParameter('api_key', ECHO_NEST_API_KEY)
+            url.addParameter('api_key', EchoNest.API_KEY)
                .addParameter('format', 'json')
                .addParameter('bucket', 'description')
                .addParameter('bucket', 'urls')

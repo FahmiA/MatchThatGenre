@@ -1,4 +1,4 @@
-define(function() {
+define(['./Round'], function(Round) {
     var RoundMaker = function(genreGraph) {
         this._genreGraph = genreGraph;
         this._nextGenre = null;
@@ -18,23 +18,20 @@ define(function() {
             console.log('Round ' + round + ', with max genre similarity of ' + maxSimilarity);
             
             var nextGenreNode = null;
-            var neighbours = [];
             return this._genreGraph.getGenre(this._nextGenre)
                 .then(function(genreNode) {
                     nextGenreNode = genreNode;
                     return this._genreGraph.getNeighbours(this._nextGenre, maxSimilarity);
                 }.bind(this))
                 .then(function(neighbourGenreNodes) {
-                    neighbours = neighbourGenreNodes;
+                    this._shuffle(neighbourGenreNodes);
                 
-                    this._shuffle(neighbours);
+                    var randomIndex = parseInt(Math.random() * neighbourGenreNodes.length);
+                    this._nextGenre = neighbourGenreNodes[randomIndex].genre;
                 
-                    var randomIndex = parseInt(Math.random() * neighbours.length);
-                    this._nextGenre = neighbours[randomIndex].genre;
+                    var round = new Round(nextGenreNode, neighbourGenreNodes, round);
                 
-                    neighbours.push(nextGenreNode);
-                
-                    return neighbours;
+                    return round;
                 }.bind(this));
         },
         

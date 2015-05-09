@@ -22,12 +22,12 @@ define(function() {
         },
         
         update: function() {
-            if(this._song != null) {
-                this._titleElement.innerText = this._song.getName();
-                this._artistElement.innerText = this._song.getArtist();
+            if(this._song) {
+                this._titleElement.textContent = this._song.getName();
+                this._artistElement.textContent = this._song.getArtist();
             } else {
-                this._titleElement.innerText = 'Nothing';
-                this._artistElement.innerText = 'No-one';
+                this._titleElement.textContent = 'Nothing';
+                this._artistElement.textContent = 'No-one';
             }
         }
     };

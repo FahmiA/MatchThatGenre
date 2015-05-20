@@ -39,12 +39,20 @@ define([
                 
                 var albumCoverPromises = genres.map(songBank.getAlbumCoversForGenre, songBank);
                 Promise.all(albumCoverPromises)
-                    .then(ArrayUtil.flatten)
-                    .then(ArrayUtil.unique)
-                    .then(function(albumCoverUrls) {
-                        console.log(albumCoverUrls);
-                    });
-            
+                    .then(function(values) {
+                        var albumCoverMap = {};
+                        
+                        for(var i = 0; i < values.length; i++) {
+                            albumCoverMap[genres[i]] = values[i];
+                        }
+                        
+                        return albumCoverMap;
+                    })
+                    .then(function(albumCoverMap) {
+                        console.log(albumCoverMap);
+                        this._background.setAlbumCovers(albumCoverMap);
+                    }.bind(this));
+                
                 return round;
             }.bind(this))
             .then(function(round) {
@@ -53,11 +61,6 @@ define([
             .then(function(song) {
                 this._player.setSong(song);
             }.bind(this));
-            
-//        this._genreOptions = new GenreOptionsView();
-        
-        // Construct the game model
-//        this._genreGraph = new GenreGraph();
     };
     
     Director.prototype = {
@@ -82,7 +85,6 @@ define([
         _makeAlbumBackground: function() {
             var backgroundDiv = document.querySelector('#album-background');
             var albumBackground = new AlbumBackground(backgroundDiv);
-//            albumBackground.create();
             
             return albumBackground;
         },

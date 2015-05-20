@@ -70,13 +70,6 @@ body {
     float: left;
     width: 50%;
     
-    /* Adjust height to correct aspect ratio given width. */
-    height: 0;
-    padding-top: 50%;
-    
-    background-size: 100%;
-    background-repeat: no-repeat;
-    
     opacity: 0.7;
 /*    transition: opacity 0.5s, box-shadow 1.5s;*/
     transition: opacity 0.5s;
@@ -84,9 +77,6 @@ body {
 
 .album-big {
     width: 100%;
-    
-    /* Adjust height to correct aspect ratio given width. */
-    padding-top: 100%;
 }
 
 .album-cover.highlight {
@@ -105,26 +95,6 @@ body {
 .album-cover.lowlight {
     opacity: 0.7;
     
-}
-
-.album-1 {
-    background-image: url(AlbumCovers/1.jpeg);
-}
-
-.album-2 {
-    background-image: url(AlbumCovers/2.jpeg);
-}
-
-.album-3 {
-    background-image: url(AlbumCovers/3.jpeg);
-}
-
-.album-4 {
-    background-image: url(AlbumCovers/4.jpeg);
-}
-
-.album-5 {
-    background-image: url(AlbumCovers/5.jpeg);
 }
 
 .fadeFooter {

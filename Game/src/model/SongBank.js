@@ -49,11 +49,9 @@ define(['./EchoNest', './SimpleURL', './Song', '../util/PromiseUtil', '../util/A
             var i = 0;
             return PromiseUtil.promiseWhile(
                 function condition(result) {
-//                    console.log('Condition: i = ' + i + ', listenableSongRecord = ' + !!listenableSongRecord);
                     return i < trackURLs.length && !result
                 },
                 function action() {
-//                    console.log('Action: ' + trackURLs[i]);
                     return fetch(trackURLs[i++])
                             .then(this._parseJSON)
                             .then(this._getTrack)
@@ -124,7 +122,8 @@ define(['./EchoNest', './SimpleURL', './Song', '../util/PromiseUtil', '../util/A
             }, this);
             
             return Promise.all(trackPromises)
-                    .then(ArrayUtil.flatten);
+                    .then(ArrayUtil.flatten)
+                    .then(ArrayUtil.unique);
         },
         
         _getArtistAlbumCovers: function(response) {

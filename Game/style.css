@@ -20,8 +20,6 @@ body {
 }
 
 #album-background {
-    position: relative;
-    
     
     height: 100%;
     
@@ -70,9 +68,13 @@ body {
     float: left;
     width: 50%;
     
-    opacity: 0.7;
-/*    transition: opacity 0.5s, box-shadow 1.5s;*/
+    opacity: 0.0;
     transition: opacity 0.5s;
+/*    transition: opacity 0.5s, box-shadow 1.5s;*/
+}
+
+.album-cover.loaded {
+    opacity: 0.7;
 }
 
 .album-big {

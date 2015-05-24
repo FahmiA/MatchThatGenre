@@ -21,13 +21,21 @@ define(['../util/ArrayUtil'], function(ArrayUtil) {
 			
 			albumCoverList = ArrayUtil.shuffle(albumCoverList);
 			
+			// Apply album covers to templates
 			templates.forEach(function(template, i) {
 				var imageElements = template.getImageElements();
 				imageElements.forEach(function(imageElement, j) {
+					imageElement.addEventListener('load', this._markAlbumLoaded);
 					imageElement.src = albumCoverList[i + j].url;
+					
 					this._genreImageMap[albumCoverList[i + j].genre] = imageElement;
 				}, this);
 			}, this);
+		},
+		
+		_markAlbumLoaded: function(event) {
+			var imageElement = event.target;
+			imageElement.classList.add('loaded');
 		}
 	};
 	
